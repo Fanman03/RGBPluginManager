@@ -1,25 +1,18 @@
-﻿<Window x:Class="PluginManager.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
-        xmlns:local="clr-namespace:PluginManager"
-        xmlns:styles="clr-namespace:PluginManager.Styles"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"        
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
-        mc:Ignorable="d"
-        Name="AppWindow"
-        ResizeMode="CanMinimize"
-        Closed="AppWindow_Closed"
-        Closing="AppWindow_Closing"
-        Title="Plugin Manager" Height="500" Width="800">
+﻿<fw:AcrylicWindow x:Class="PluginManager.MainWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+                  xmlns:local="clr-namespace:PluginManager"
+                  xmlns:styles="clr-namespace:PluginManager.Styles"
+                  mc:Ignorable="d"
+                  Name="AppWindow"
+                  ResizeMode="CanMinimize"
+                  Closed="AppWindow_Closed"
+                  Closing="AppWindow_Closing"
+                  Title="Plugin Manager" Height="500" Width="800">
     <FrameworkElement.CommandBindings>
         <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="OpenUrl" />
     </FrameworkElement.CommandBindings>
@@ -41,12 +34,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Image Margin="2,0,0,0" HorizontalAlignment="Left" Height="32" Source="favicon.png" RenderTransformOrigin="0.449,0.543"></Image>
-        <TextBlock Margin="34,4,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="32" Name="MarketplaceTitle" TextTrimming="CharacterEllipsis">Plugin Manager</TextBlock>
-        <ListBox ScrollViewer.CanContentScroll="False" Style="{StaticResource MaterialDesignCardsListBox}" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Name="PluginBox" HorizontalAlignment="Left" Height="380"  Margin="10,10,0,0" VerticalAlignment="Top" Width="775" ItemsSource="{Binding packageIndex.Packages}">
+        <TextBlock Margin="4,6" FontFamily="Segoe MDL2 Assets" FontSize="32" Text="&#xE118;" Foreground="{DynamicResource SystemBaseHighColorBrush}" />
+        <TextBlock Margin="40,4,0,0" Grid.Column="0" FontFamily="Seqoe UI Light" Grid.Row="0" Grid.ColumnSpan="2" FontSize="32" Name="MarketplaceTitle" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource SystemBaseHighColorBrush}">Plugin Manager</TextBlock>
+        <ListBox ScrollViewer.CanContentScroll="False" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Name="PluginBox" HorizontalAlignment="Left" Height="380" Background="Transparent" BorderBrush="Transparent"  Margin="10,10,0,0" VerticalAlignment="Top" Width="790" ItemsSource="{Binding packageIndex.Packages}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid fw:PointerTracker.Enabled="True" Width="758" Background="{DynamicResource SystemAltHighColorBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="120" />
                             <ColumnDefinition Width="80" />
@@ -58,13 +51,13 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Width="100" Height="100" Source="{Binding Image}"></Image>
-                        <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="4" Text="{Binding Name}" ToolTip="{Binding Name}" Width="auto" FontSize="28" TextTrimming="CharacterEllipsis" />
-                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="4,0,0,0" Content="{Binding Status}"></Label>
-                        <markdig:MarkdownViewer MaxHeight="80" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="-7,-20,0,0" Markdown="{Binding Description}"/>
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Width="100" Height="100" Source="{Binding Image}" ></Image>
+                        <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="4" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="{Binding Name}" ToolTip="{Binding Name}" Width="auto" FontSize="28" TextTrimming="CharacterEllipsis" />
+                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="4,0,0,0" Content="{Binding Status}" Foreground="{DynamicResource SystemBaseHighColorBrush}"></Label>
+                        <markdig:MarkdownViewer MaxHeight="80" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="-7,-20,0,0" Markdown="{Binding Description}" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                         <DockPanel Width="220" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Margin="4,0,0,10" Grid.ColumnSpan="2">
-                            <Button Height="30" Width="100" x:Name="InstallButton" IsEnabled="{Binding IsNotInstalled}" Click="InstallButton_Click">Install</Button>
-                            <Button Height="30" Width="100" x:Name="RemoveButton" IsEnabled="{Binding IsInstalled}" Click="RemoveButton_Click">Remove</Button>
+                            <Button Height="30" Style="{StaticResource ButtonRevealStyle}" Width="100" x:Name="InstallButton" IsEnabled="{Binding IsNotInstalled}" Click="InstallButton_Click">Install</Button>
+                            <Button Height="30" Style="{StaticResource ButtonRevealStyle}" Width="100" x:Name="RemoveButton" IsEnabled="{Binding IsInstalled}" Click="RemoveButton_Click">Remove</Button>
                         </DockPanel>
                     </Grid>
                 </DataTemplate>
@@ -73,7 +66,7 @@
         <Label MouseLeftButtonDown="Website_link" Grid.Column="0" Grid.Row="2">
             <Label.Style>
                 <Style TargetType="Label">
-                    <Setter Property="Foreground" Value="Blue" />
+                    <Setter Property="Foreground" Value="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" />
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="White" />
@@ -84,7 +77,7 @@
             <Hyperlink Click="Website_link">
                 <Hyperlink.Style>
                     <Style TargetType="Hyperlink">
-                        <Setter Property="Foreground" Value="#2196F3" />
+                        <Setter Property="Foreground" Value="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Foreground" Value="White" />
@@ -97,7 +90,7 @@
             <Hyperlink Click="Github_link">
                 <Hyperlink.Style>
                     <Style TargetType="Hyperlink">
-                        <Setter Property="Foreground" Value="#2196F3" />
+                        <Setter Property="Foreground" Value="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Foreground" Value="White" />
@@ -107,4 +100,4 @@
                 </Hyperlink.Style> Contribute on GitHub</Hyperlink>
         </Label>
     </Grid>
-</Window>
+</fw:AcrylicWindow>

@@ -10,13 +10,14 @@ using NLog;
 using System.Collections;
 using Markdig;
 using Markdig.Wpf;
+using SourceChord.FluentWPF;
 
 namespace PluginManager
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : AcrylicWindow
     {
         public static string RootDir = Directory.GetCurrentDirectory();
         public string DeviceProviderDir = RootDir + "\\DeviceProvider";
@@ -64,6 +65,9 @@ namespace PluginManager
                 Logger.Info("New settings file has been created.");
             }
 
+            MarketplaceTitle.Text = settings.MarketplaceName;
+            AppWindow.Title = settings.MarketplaceName;
+
 
             Process[] processes = Process.GetProcessesByName(settings.MainExe);
             if (processes.Length == 0)
@@ -107,10 +111,8 @@ namespace PluginManager
                 string jsonString = webClient.DownloadString(settings.IndexURL);
                 packageIndex = JsonConvert.DeserializeObject<JsonIndex>(jsonString);
                 Logger.Info("Package index read succesfully.");
-                MarketplaceTitle.Text = packageIndex.MarketplaceName;
-                AppWindow.Title = packageIndex.MarketplaceName;
 
-               if(packageIndex.AdditionalPackageURLs != null)
+                if(packageIndex.AdditionalPackageURLs != null)
                 {
                     foreach (string url in packageIndex.AdditionalPackageURLs)
                     {
